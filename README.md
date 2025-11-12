@@ -3,10 +3,11 @@
 
 前提是这个location包含2020年1月1日到2025年1月1日的数据
 
-1. 先在project root directory创建.env，在里面放OpenAq的API key
+1. 先在project root directory创建.env，在里面放OpenAq的API key:
+   
 OPENAQ_API_KEY='your_API_key'
 
-2. 然后在command line跑：pip install -r requirements.txt
+2.  然后在command line跑：pip install -r requirements.txt
 
 3. 再在command line跑：python fetch_data.py
 跳出“Enter location ID:”提示时
