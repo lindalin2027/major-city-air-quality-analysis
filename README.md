@@ -11,7 +11,10 @@ OPENAQ_API_KEY='your_API_key'
 输入location id
 
 ？怎么获取location id？
-在https://explore.openaq.org，点击一个有白色边框的紫色点点，找到此时url中的location。
+在https://explore.openaq.org
+
+点击一个有白色边框的紫色点点，找到此时url中的location。
+
 比如：https://explore.openaq.org/?location=739&provider=119&sensors=false#12/38.92184/-77.01317
 
 这个位置的location id就是739
