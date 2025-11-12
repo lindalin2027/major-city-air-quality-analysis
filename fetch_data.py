@@ -109,14 +109,24 @@ if __name__ == '__main__':
     print("OpenAQ Data Fetcher")
     print("=" * 70)
     
-    # Example 1: Get data for location 1884
-    print("\nExample 1: Fetching data for location 1884 (2020-2025)")
-    df_1884 = get_location_data(client, 1884)
+    # Get location ID from user
+    location_id = input("\nEnter location ID: ")
+    
+    # Convert to integer
+    try:
+        location_id = int(location_id)
+    except ValueError:
+        print("Error: Please enter a valid number")
+        exit()
+    
+    # Fetch data for the user-provided location
+    print(f"\nFetching data for location {location_id} (2020-2025)")
+    df = get_location_data(client, location_id)
     
     # Display summary
-    print(df_1884.head())
+    print(df.head())
     
     # Save to CSV
-    output_file = "location_1884_data.csv"
-    df_1884.to_csv(output_file, index=False)
+    output_file = f"location_{location_id}_data.csv"
+    df.to_csv(output_file, index=False)
     print(f"\nData saved to: {output_file}")
