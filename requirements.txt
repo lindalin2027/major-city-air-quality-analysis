@@ -1,5 +1,6 @@
-requests
-pandas
-numpy
 openaq
+pandas
 python-dotenv
+sqlalchemy
+psycopg2-binary
+python-dateutil

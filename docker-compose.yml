@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: openaq_postgres
+    environment:
+      POSTGRES_USER: openaq_user
+      POSTGRES_PASSWORD: openaq123
+      POSTGRES_DB: openaq_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U openaq_user -d openaq_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # pgAdmin (Database GUI)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: openaq_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+  # Python Data Fetcher
+  data_fetcher:
+    build: .
+    container_name: openaq_fetcher
+    environment:
+      OPENAQ_API_KEY: ${OPENAQ_API_KEY}
+      DATABASE_URL: postgresql://openaq_user:openaq123@postgres:5432/openaq_db
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./fetch_data.py:/app/fetch_data.py
+      - ./data_output:/app/output
+
+volumes:
+  postgres_data:
+  pgadmin_data:
